@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
+import { queryGroq } from '@/api/groq';
 import { CheckCircle, Sparkles, Loader2, Save, Wand2 } from 'lucide-react';
 
 const STATUS_STYLE = {
@@ -43,16 +44,17 @@ export default function DocumentEditor({ doc, matters, onUpdate }) {
     if (!aiPrompt.trim()) return;
     setAiLoading(true);
     const matter = matters.find(m => m.id === doc.matterId);
-    const suggestion = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are a Canadian legal document assistant. The lawyer is working on: "${doc.title}" (${doc.documentType?.replace(/_/g,' ')}) for matter "${matter?.name || 'General'}".
+    const suggestion = await queryGroq(
+      `Document Title: "${doc.title}"
+Type: ${doc.documentType?.replace(/_/g,' ')}
+Matter: ${matter?.name || 'General'}
 
 Current document content:
 ${content.slice(0, 2000)}
 
-Lawyer's request: ${aiPrompt}
-
-Provide a specific, legally precise response or draft the requested paragraph/section. Use proper Canadian legal language, cite relevant Rules of Civil Procedure where applicable.`,
-    });
+Lawyer's request: ${aiPrompt}`,
+      "You are a Canadian legal document assistant. Provide a specific, legally precise response or draft the requested paragraph/section. Use proper Canadian legal language, cite relevant Rules of Civil Procedure where applicable."
+    );
     setAiSuggestion(suggestion);
     setAiLoading(false);
   };

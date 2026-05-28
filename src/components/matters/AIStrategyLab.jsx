@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
+import { queryGroq } from '@/api/groq';
 import { Sparkles, Send, Loader2, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,10 +25,8 @@ export default function AIStrategyLab({ matter }) {
     setMessages(prev => [...prev, { role: 'user', content: q }]);
     setLoading(true);
 
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are Tempora Lex AI Synapse — an expert Canadian legal assistant. You are advising on the following matter:
-
-Matter: ${matter.name}
+    const response = await queryGroq(
+      `Matter: ${matter.name}
 Client: ${matter.client}
 Court: ${matter.court?.toUpperCase()}
 Status: ${matter.status}
@@ -36,10 +34,9 @@ Priority: ${matter.priority}
 Keywords: ${matter.keywords?.join(', ') || 'N/A'}
 Notes: ${matter.notes || 'None'}
 
-The lawyer asks: ${q}
-
-Provide a concise, legally rigorous response. Reference Canadian law, relevant statutes, and court rules where applicable. Be direct.`,
-    });
+The lawyer asks: ${q}`,
+      "You are Tempora Lex AI Synapse — an expert Canadian legal assistant. Provide a concise, legally rigorous response. Reference Canadian law, relevant statutes, and court rules where applicable. Be direct."
+    );
 
     setMessages(prev => [...prev, { role: 'assistant', content: response }]);
     setLoading(false);

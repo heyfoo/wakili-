@@ -5,6 +5,7 @@
  */
 
 import { base44 } from '@/api/base44Client';
+import { queryGroq } from '@/api/groq';
 
 // Live RSS feed sources — all verified working
 export const LEGAL_SOURCES = [
@@ -144,39 +145,33 @@ export function parseRSSXML(xmlText, sourceInfo) {
 }
 
 /**
- * Compute a relevance score (0–10) by matching item text against matter keywords.
- * Also boosts score based on recency.
+ * Compute a relevance score (0–10) using AI.
  */
-export function computeRelevanceScore(item, keywords = [], activeJurisdictions = []) {
-  if (!keywords.length) return 5.0;
+export async function computeRelevanceScoreAI(item, keywords = []) {
+  if (!keywords.length) return { score: 5.0, keywordMatches: [] };
 
-  const text = `${item.title} ${item.summary} ${item.citation}`.toLowerCase();
-  let score = 0;
-  const matched = [];
+  const prompt = `Item Title: ${item.title}
+Item Summary: ${item.summary}
+Keywords: ${keywords.join(', ')}
 
-  for (const kw of keywords) {
-    const kwLower = kw.toLowerCase();
-    if (text.includes(kwLower)) {
-      matched.push(kw);
-      score += 2.5;
-    }
-  }
+Evaluate how relevant this legal news item is to the provided keywords on a scale of 0 to 10.
+Also identify which keywords matched.
+Return ONLY a JSON object like this: {"score": 7.5, "matched": ["keyword1", "keyword2"]}`;
 
-  // Boost for high courts
-  const highCourts = ['SCC', 'FCA', 'ONCA'];
-  if (highCourts.includes(item.source)) score += 1.5;
-
-  // Recency boost — within 7 days
   try {
-    const age = (Date.now() - new Date(item.publishedAt).getTime()) / (1000 * 60 * 60 * 24);
-    if (age <= 1) score += 1.5;
-    else if (age <= 7) score += 0.8;
-  } catch { /* ignore */ }
-
-  return {
-    score: Math.min(10, parseFloat(score.toFixed(1))),
-    keywordMatches: matched,
-  };
+    const response = await queryGroq(prompt, "You are a legal analyst. Respond only in valid JSON.");
+    const parsed = JSON.parse(response.replace(/```json\n?/, '').replace(/\n?```/, '').trim());
+    return {
+      score: Math.min(10, parseFloat(parsed.score) || 0),
+      keywordMatches: parsed.matched || [],
+    };
+  } catch (e) {
+    console.error("AI scoring failed, falling back to keyword match", e);
+    // Fallback logic
+    const text = `${item.title} ${item.summary}`.toLowerCase();
+    const matched = keywords.filter(kw => text.includes(kw.toLowerCase()));
+    return { score: matched.length > 0 ? 7.0 : 2.0, keywordMatches: matched };
+  }
 }
 
 /**
@@ -249,7 +244,7 @@ Output the raw XML only.`,
           continue;
         }
 
-        const { score, keywordMatches } = computeRelevanceScore(item, allKeywords, activeJurisdictions);
+        const { score, keywordMatches } = await computeRelevanceScoreAI(item, allKeywords);
 
         await base44.entities.IntelItem.create({
           title: item.title,
