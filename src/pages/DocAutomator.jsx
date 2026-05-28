@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
+import { queryGroq } from '@/api/groq';
 import { FileText, Plus, Loader2, Wand2, X } from 'lucide-react';
 import DocumentEditor from '@/components/docauto/DocumentEditor';
 
@@ -60,9 +61,13 @@ export default function DocAutomator() {
     let content = '';
     if (aiDraft) {
       const matter = matters.find(m => m.id === newForm.matterId);
-      content = await base44.integrations.Core.InvokeLLM({
-        prompt: `Draft a legal document for a Canadian litigator. Document type: ${newForm.documentType.replace(/_/g,' ')}. Matter: ${matter?.name || 'General Matter'}. Client: ${matter?.client || 'Client'}. Court: ${matter?.court?.toUpperCase() || 'ONSC'}. Create a complete, properly formatted Canadian legal document with standard boilerplate, numbered paragraphs, style of cause block, and appropriate legal language. Include relevant section headers.`,
-      });
+      content = await queryGroq(
+        `Document type: ${newForm.documentType.replace(/_/g,' ')}.
+Matter: ${matter?.name || 'General Matter'}.
+Client: ${matter?.client || 'Client'}.
+Court: ${matter?.court?.toUpperCase() || 'ONSC'}.`,
+        "You are a Canadian legal document assistant. Draft a complete, properly formatted Canadian legal document with standard boilerplate, numbered paragraphs, style of cause block, and appropriate legal language. Include relevant section headers."
+      );
     }
     const matterName = matters.find(m => m.id === newForm.matterId)?.name || '';
     const doc = await base44.entities.Document.create({ ...newForm, matterName, content, synapseVerified: aiDraft });
