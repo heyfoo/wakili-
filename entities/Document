@@ -1,0 +1,56 @@
+{
+  "name": "Document",
+  "type": "object",
+  "properties": {
+    "matterId": {
+      "type": "string"
+    },
+    "matterName": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string",
+      "description": "HTML or rich text content"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "in_progress",
+        "review_pending",
+        "filed",
+        "finalized"
+      ],
+      "default": "draft"
+    },
+    "documentType": {
+      "type": "string",
+      "enum": [
+        "affidavit",
+        "notice_of_motion",
+        "factum",
+        "book_of_authorities",
+        "statement_of_claim",
+        "statement_of_defence",
+        "costs_outline",
+        "correspondence",
+        "other"
+      ],
+      "default": "other"
+    },
+    "completionPercent": {
+      "type": "number",
+      "default": 0
+    },
+    "synapseVerified": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

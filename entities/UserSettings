@@ -1,0 +1,71 @@
+{
+  "name": "UserSettings",
+  "type": "object",
+  "properties": {
+    "workloadCeilingHours": {
+      "type": "number",
+      "default": 10
+    },
+    "deepWorkBufferMinutes": {
+      "type": "number",
+      "default": 90
+    },
+    "synapseIntrusion": {
+      "type": "string",
+      "enum": [
+        "low",
+        "balanced",
+        "max"
+      ],
+      "default": "balanced"
+    },
+    "proactiveResearch": {
+      "type": "boolean",
+      "default": true
+    },
+    "autoFlagRelevance": {
+      "type": "boolean",
+      "default": true
+    },
+    "relevanceThreshold": {
+      "type": "number",
+      "default": 7.0
+    },
+    "hourlyRate": {
+      "type": "number",
+      "default": 500
+    },
+    "primaryJurisdiction": {
+      "type": "string",
+      "enum": [
+        "onsc",
+        "onca",
+        "fct",
+        "scc",
+        "bcsc",
+        "qccs"
+      ],
+      "default": "onsc"
+    },
+    "activeKeywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "enabledSources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "counselName": {
+      "type": "string",
+      "default": "Counsel"
+    },
+    "firmName": {
+      "type": "string"
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Witness",
+  "type": "object",
+  "properties": {
+    "matterId": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "readiness": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "pending",
+        "cross_exam",
+        "confirmed",
+        "unavailable"
+      ],
+      "default": "pending"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "matterId",
+    "name"
+  ]
+}

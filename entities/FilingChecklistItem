@@ -1,0 +1,23 @@
+{
+  "name": "FilingChecklistItem",
+  "type": "object",
+  "properties": {
+    "matterId": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "isCompleted": {
+      "type": "boolean",
+      "default": false
+    },
+    "order": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "matterId",
+    "label"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "name": "Matter",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Case/matter name"
+    },
+    "caseNumber": {
+      "type": "string",
+      "description": "Court file number"
+    },
+    "court": {
+      "type": "string",
+      "description": "Court name"
+    },
+    "client": {
+      "type": "string",
+      "description": "Client name"
+    },
+    "practiceArea": {
+      "type": "string",
+      "enum": [
+        "litigation",
+        "corporate",
+        "real_estate",
+        "family",
+        "criminal",
+        "administrative",
+        "ip",
+        "privacy",
+        "other"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active_motion",
+        "appellate_filing",
+        "discovery",
+        "pre_trial",
+        "trial",
+        "mediation",
+        "closed"
+      ],
+      "default": "active_motion"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "standard",
+        "low"
+      ],
+      "default": "standard"
+    },
+    "jurisdiction": {
+      "type": "string",
+      "enum": [
+        "onsc",
+        "onca",
+        "scc",
+        "fct",
+        "fca",
+        "bcsc",
+        "bcca",
+        "qccs",
+        "lat",
+        "hrto",
+        "other"
+      ],
+      "default": "onsc"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Keywords for intelligence matching"
+    },
+    "nextDeadlineDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "nextDeadlineLabel": {
+      "type": "string"
+    },
+    "prepCompletionPercent": {
+      "type": "number",
+      "default": 0
+    },
+    "judgeAssigned": {
+      "type": "string"
+    },
+    "opposingCounsel": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "client"
+  ]
+}

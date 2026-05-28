@@ -1,0 +1,64 @@
+{
+  "name": "IntelItem",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source name e.g. ONCA, CanLII, LEGISinfo"
+    },
+    "sourceType": {
+      "type": "string",
+      "enum": [
+        "case_decision",
+        "legislative_amendment",
+        "bill_update",
+        "court_docket",
+        "tribunal_update",
+        "rule_amendment"
+      ],
+      "default": "case_decision"
+    },
+    "url": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "relevanceScore": {
+      "type": "number",
+      "description": "AI-computed 0-10 relevance score"
+    },
+    "publishedAt": {
+      "type": "string"
+    },
+    "isRead": {
+      "type": "boolean",
+      "default": false
+    },
+    "isBookmarked": {
+      "type": "boolean",
+      "default": false
+    },
+    "attachedMatterIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "keywordMatches": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "citation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

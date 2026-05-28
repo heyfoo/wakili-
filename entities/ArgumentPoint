@@ -1,0 +1,31 @@
+{
+  "name": "ArgumentPoint",
+  "type": "object",
+  "properties": {
+    "matterId": {
+      "type": "string"
+    },
+    "order": {
+      "type": "number"
+    },
+    "title": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "estimatedMinutes": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "matterId",
+    "title"
+  ]
+}
