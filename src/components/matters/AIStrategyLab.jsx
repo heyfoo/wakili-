@@ -15,7 +15,6 @@ export default function AIStrategyLab({ matter }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [insight, setInsight] = useState(null);
 
   const sendQuery = async (query) => {
     if (loading) return;
