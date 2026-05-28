@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { CheckCircle, Pencil, Sparkles, Loader2, Save, Wand2 } from 'lucide-react';
+import { CheckCircle, Sparkles, Loader2, Save, Wand2 } from 'lucide-react';
 
 const STATUS_STYLE = {
   draft: 'bg-orange-50 text-orange-600',
