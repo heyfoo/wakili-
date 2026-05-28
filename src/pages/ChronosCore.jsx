@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Sparkles, Plus, X, Loader2 } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { format, startOfWeek, addDays, parseISO, isSameDay } from 'date-fns';
 import NewEventModal from '@/components/chronos/NewEventModal';
 

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Gavel, TriangleAlert, Zap, Timer, Cpu, Layers, Newspaper, CalendarCheck, Sparkles, ArrowRight, Pin, EyeOff } from 'lucide-react';
+import { Gavel, TriangleAlert, Zap, Timer, Cpu, Layers, Newspaper, CalendarCheck, Sparkles, ArrowRight, Pin } from 'lucide-react';
 import { format } from 'date-fns';
 
 function StatCard({ label, value, icon: Icon, valueColor = 'text-foreground', iconColor = 'text-muted-foreground' }) {

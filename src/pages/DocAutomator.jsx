@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { FileText, Plus, Sparkles, CheckCircle, Pencil, Loader2, Wand2, X } from 'lucide-react';
+import { FileText, Plus, Loader2, Wand2, X } from 'lucide-react';
 import DocumentEditor from '@/components/docauto/DocumentEditor';
 
 const STATUS_STYLE = {
